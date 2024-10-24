@@ -1,5 +1,5 @@
 <script>
-import {reactive, toRaw, nextTick} from 'vue';
+import {reactive, toRaw, nextTick, computed} from 'vue';
 import V3SelectOption from './v3-select-option.vue';
 
 /*
@@ -40,8 +40,24 @@ export default {
 
   data: function () {
     return {
-      expanded: false
+      expanded: false,
+      value: this.modelValue
     };
+  },
+
+  provide: function () {
+    return {
+      modelValue: computed(() => this.value)
+    };
+  },
+
+  watch: {
+    modelValue: {
+      deep: true,
+      handler: function (value) {
+        this.value = value;
+      }
+    }
   },
 
   methods: {
@@ -61,6 +77,7 @@ export default {
       } else {
         modelValue = value;
       }
+      this.value = modelValue;
       this.$emit('update:modelValue', modelValue);
     },
 
@@ -109,15 +126,17 @@ export default {
 
 <template>
   <div class="v3-select" ref="el-container">
-    <div class="v3-select-value-box" @click="expandOptBox">
-      <div class="v3-select-value-label">
-        <div v-if="multiple" class="v3-select-value-container">
-          <div v-for="value in modelValue" class="v3-select-value">
-            <span v-text="value"></span>
-            <span @click="triggerValue(value)">x</span>
+    <div class="v3-select-value-container" @click="expandOptBox">
+      <div class="v3-select-value-box">
+        <template v-if="multiple">
+          <div v-for="v in value" class="v3-select-value">
+            <span v-text="v"></span>
+            <span @click="triggerValue(v)">x</span>
           </div>
+        </template>
+        <div v-else class="v3-select-value">
+          <span v-text="value"></span>
         </div>
-        <div v-else v-text="modelValue"></div>
       </div>
       <div class="v3-select-value-arrow" :class="{expanded: expanded}"></div>
     </div>
@@ -141,11 +160,12 @@ export default {
   --v3-select-height: 2rem;
   --v3-select-min-width: 10rem;
   --v3-select-max-width: 100%;
-  --v3-select-box-border-color: #DCDFE6;
-  --v3-select-box-border-radius: 3px;
+  --v3-select-value-container-border-color: #DCDFE6;
+  --v3-select-value-container-border-radius: 3px;
+  --v3-select-box-padding: 0.5rem;
   --v3-select-value-arrow-bg-url: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
   --v3-select-value-arrow-height: 1rem;
-  --v3-select-option-group-padding: 0.5rem;
+  --v3-select-option-group-padding: 0.125rem;
   --v3-select-option-bg-color: #fff;
   --v3-select-option-font-size: .8125rem;
   --v3-select-option-line-height: 1.5rem;
@@ -159,9 +179,9 @@ export default {
   outline: none;
 }
 
-.v3-select-value-box {
-  border: 1px solid var(--v3-select-box-border-color);
-  border-radius: var(--v3-select-box-border-radius);
+.v3-select-value-container {
+  border: 1px solid var(--v3-select-value-container-border-color);
+  border-radius: var(--v3-select-value-container-border-radius);
   cursor: pointer;
   display: flex;
   height: var(--v3-select-height);
@@ -169,16 +189,11 @@ export default {
   min-width: var(--v3-select-min-width);
 }
 
-.v3-select-value-label {
-  flex: 1 1 auto;
-}
-
-.v3-select-value-container {
+.v3-select-value-box {
   display: flex;
+  flex: 1 1 auto;
   flex-wrap: wrap;
-}
-
-.v3-select-value {
+  padding: var(--v3-select-box-padding);
 }
 
 .v3-select-value-arrow {
@@ -189,12 +204,9 @@ export default {
   width: var(--v3-select-height);
 }
 
-.v3-select-value-arrow.expanded {
-}
-
 .v3-select-option-box {
-  border: 1px solid var(--v3-select-box-border-color);
-  border-radius: var(--v3-select-box-border-radius);
+  border: 1px solid var(--v3-select-value-container-border-color);
+  border-radius: var(--v3-select-value-container-border-radius);
   box-sizing: border-box;
   min-width: var(--v3-select-min-width);
   overflow: auto;

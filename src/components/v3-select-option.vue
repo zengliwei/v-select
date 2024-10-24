@@ -1,5 +1,5 @@
 <script setup>
-import {defineProps, defineEmits} from 'vue';
+import {defineProps, defineEmits, computed, inject} from 'vue';
 
 defineEmits(['trigger']);
 
@@ -14,10 +14,12 @@ const props = defineProps({
   }
 });
 
+const modelValue = inject('modelValue');
+
 const cssClass = computed(() => {
-  console.log('modelValue', modelValue, props.value);
   return {
-    selected: modelValue === props.value || (modelValue instanceof Array && modelValue.includes(props.value))
+    selected: modelValue.value === props.value
+        || (Array.isArray(modelValue.value) && modelValue.value.includes(props.value))
   };
 });
 </script>
