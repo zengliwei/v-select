@@ -1,0 +1,36 @@
+{
+    "name": "v3-select",
+    "version": "0.0.0",
+    "author": "Zengliwei",
+    "type": "module",
+    "keywords": [
+        "select",
+        "vue",
+        "vue3"
+    ],
+    "files": [
+        "dist"
+    ],
+    "main": "./dist/lib/v3-select.umd.js",
+    "module": "./dist/lib/v3-select.es.js",
+    "exports": {
+        ".": {
+            "import": "./dist/lib/v3-select.es.js",
+            "require": "./dist/lib/v3-select.umd.js"
+        },
+        "./v3-select.css": {
+            "import": "./dist/lib/v3-select.min.css",
+            "require": "./dist/lib/v3-select.min.css"
+        }
+    },
+    "devDependencies": {
+        "@vitejs/plugin-vue": "^5.1.2",
+        "vite": "^5.4.8",
+        "vue": "^3.5.8"
+    },
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build --config vite.config.lib.js",
+        "preview": "vite preview"
+    }
+}
