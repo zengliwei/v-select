@@ -3,7 +3,7 @@
 A selector component for Vue 3.x.
 
 - Github: [https://github.com/zengliwei/v3-select/](https://github.com/zengliwei/v3-select/)
-- Demo: [http://zengliwei.local.test/works/v3-select/](http://zengliwei.local.test/works/v3-select/)
+- Demo: [http://zengliwei.github.io/works/v3-select/](http://zengliwei.github.io/works/v3-select/)
 
 ![alt v3-select](https://zengliwei.github.io/web/images/works/v3-select/screenshot.png)
 

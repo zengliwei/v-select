@@ -8,6 +8,11 @@
         "vue",
         "vue3"
     ],
+    "homepage": "http://zengliwei.github.io/works/v3-select",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/zengliwei/v3-select.git"
+    },
     "files": [
         "dist"
     ],
